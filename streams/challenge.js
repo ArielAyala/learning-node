@@ -1,4 +1,4 @@
-// Crear una función en node que reciba na cadena de texto 
+// Crear una función en node que reciba una cadena de texto 
 // y la convierta en camel case usando streams
 
 const { Transform } = require('stream');
@@ -9,7 +9,7 @@ const cameCaseTransform = new Transform({
         const toCamelCase = (chunkParameter) => {
 
             const chunkString = chunkParameter.toString(); // Se convierte a string
-            const primeraLetra = chunkString.charAt(0);
+            const primeraLetra = chunkString.charAt(0); //
             const primeraLetraMayuscula = primeraLetra.toUpperCase();
 
             const restoDelChunk = chunkString.slice(1);
