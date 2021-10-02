@@ -12,6 +12,9 @@ const moviesApi = require('./routes/movies');
 //   res.json({ hello: 'world' });
 // });
 
+// body parser
+app.use(express.json())
+
 moviesApi(app);
 
 app.listen(config, () => {

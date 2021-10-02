@@ -1,15 +1,14 @@
 const { MongoClient, ObjectId } = require('mongodb');
 const { config } = require('../config');
-
 const USER = encodeURIComponent(config.dbUser);
 const PASSWORKD = encodeURIComponent(config.dbPassword);
 const DB_NAME = config.dbName;
 
-const MONGO_URI = `mongodb+srv://${USER}:${PASSWORKD}@${config.dbHost}:${config.port}/${DB_NAME}/retryWrites=true&w=majority`;
+const MONGO_URI = `mongodb+srv://${USER}:${PASSWORKD}@${config.dbHost}/${DB_NAME}?retryWrites=true&w=majority`;
 
 class MongoLib {
   constructor() {
-    this.client = new MongoClient(MONGO_URI, { userNewUrlParser: true });
+    this.client = new MongoClient(MONGO_URI, { useUnifiedTopology: true });
     this.dbName = DB_NAME;
   }
 
@@ -53,8 +52,10 @@ class MongoLib {
   }
 
   delete(collection, id) {
+
+    console.log('id a borrar', id);
     return this.connect().then(db => {
-      return db.collection(collection).deleteone({ _id: ObjectId(id) });
+      return db.collection(collection).deleteOne({ _id: ObjectId(id) });
     }).then(() => id);
   }
 }
