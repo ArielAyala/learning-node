@@ -4,16 +4,14 @@ const { config } = require('./config');
 
 const moviesApi = require('./routes/movies');
 
-// app.get('/', (req, res) => {
-//   res.send('hello world');
-// });
-
-// app.get('/json', (req, res) => {
-//   res.json({ hello: 'world' });
-// });
+const { logErrors, errorHandler } = require('./utils/middleware/errorHandler')
 
 // body parser
 app.use(express.json())
+
+
+app.use(logErrors);
+app.use(errorHandler);
 
 moviesApi(app);
 
