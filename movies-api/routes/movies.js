@@ -1,6 +1,14 @@
 const express = require('express');
 const MoviesService = require('../services/movies');
 
+const {
+  movieIdSchema,
+  createMovieSchema,
+  updateMovieSchema
+} = require('../utils/schemas/movies')
+
+const validationHandler = require('../utils/middleware/validationHandler');
+
 const moviesApi = (app) => {
   const router = express.Router();
   app.use('/api/movies', router);
@@ -21,7 +29,7 @@ const moviesApi = (app) => {
     }
   });
 
-  router.get('/:movieId', async (req, res, next) => {
+  router.get('/:movieId', validationHandler({ movieId: movieIdSchema }, 'params'), async (req, res, next) => {
     const { movieId } = req.params;
     try {
       const movies = await moviesService.getMovie({ movieId });
@@ -35,7 +43,7 @@ const moviesApi = (app) => {
     }
   });
 
-  router.post('/', async (req, res, next) => {
+  router.post('/', validationHandler(createMovieSchema), async (req, res, next) => {
     const { body: movie } = req;
     try {
       const createdMovieId = await moviesService.createMovie({ movie });
@@ -49,7 +57,7 @@ const moviesApi = (app) => {
     }
   });
 
-  router.put('/:movieId', async (req, res, next) => {
+  router.put('/:movieId', validationHandler({ movieId: movieIdSchema }, 'params'), validationHandler(updateMovieSchema), async (req, res, next) => {
     const { movieId } = req.params;
     const { body: movie } = req;
 
@@ -68,7 +76,7 @@ const moviesApi = (app) => {
     }
   });
 
-  router.delete('/:movieId', async (req, res, next) => {
+  router.delete('/:movieId', validationHandler({ movieId: movieIdSchema }, 'params'), async (req, res, next) => {
     const { movieId } = req.params;
     try {
       const deletedMovieId = await moviesService.deleteMovie({ movieId });

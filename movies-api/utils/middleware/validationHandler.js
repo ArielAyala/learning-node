@@ -1,7 +1,15 @@
 const boom = require('@hapi/boom');
+const Joi = require('@hapi/joi');
 
-function validate() {
-    return false;
+/**
+ * Validate the data against a schema
+ * @param {*} data Value to validate
+ * @param {*} schema Required schema
+ * @returns 
+ */
+function validate(data, schema) {
+    const { error } = schema.validate(data)
+    return error
 }
 
 function validationHandler(schema, check = 'body') {
