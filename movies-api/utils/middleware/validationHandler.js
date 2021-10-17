@@ -8,6 +8,11 @@ const Joi = require('@hapi/joi');
  * @returns 
  */
 function validate(data, schema) {
+    // Esta verificación es necesaria, ya que cuando validamos el id pasado como parámetro, pasamos un objeto plano, por tanto, lo convertimos a uno de tipo joi. (de lo contrario no tenemos acceso al metood validate
+    if (!schema.isJoi) {
+        console.log(schema);
+        schema = Joi.object({ ...schema });
+    }
     const { error } = schema.validate(data)
     return error
 }

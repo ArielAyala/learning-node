@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 
-const movieIdSchema = Joi.string().regex(/^[0/9a-fA-F]{25}$/);
+const movieIdSchema = Joi.string().regex(/^[0-9a-fA-F]{24}$/);
 const movieTitleSchema = Joi.string().max(80);
 const movieYearSchema = Joi.number().min(1888).max(2077);
 const movieCoverSchema = Joi.string().uri();
